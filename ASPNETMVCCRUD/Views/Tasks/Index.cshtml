@@ -1,0 +1,37 @@
+﻿@model List<EmployersEnvironment.Models.Domain.Task>
+@{
+}
+
+<h1>Task</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>TaskID</th>
+            <th>Description</th>
+            <th>Spring</th>
+            <th>CompleteTime</th>
+            <th>Stage</th>
+            <th>AssigneeID</th>
+            <th>AuthorID</th>
+            <th>SubtaskID</th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td>@task.TaskID</td>
+                <td>@task.Description</td>
+                <td>@task.Spring.ToString("dd-mm-yyyy")</td>
+                <td>@task.CompleteTime.ToString("hh:mm:ss")</td>
+                <td>@task.Stage</td>
+                <td>@task.AssigneeID</td>
+                <td>@task.AuthorID</td>
+                <td>@task.SubtaskID</td>
+                <td><a href="Tasks/View/@task.TaskID">View</a></td>
+            </tr>
+        }
+    </tbody>
+
+    </table>
