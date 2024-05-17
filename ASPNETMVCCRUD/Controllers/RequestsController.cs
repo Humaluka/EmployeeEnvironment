@@ -67,7 +67,7 @@ namespace HelpComing.Controllers
             };
             await helpComingDbContext.Requests.AddAsync(request);
             await helpComingDbContext.SaveChangesAsync();
-            return View("Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
