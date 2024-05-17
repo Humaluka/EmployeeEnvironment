@@ -1,8 +1,10 @@
-﻿using EmployersEnvironment.Models;
+﻿using HelpComing.Data;
+using HelpComing.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace EmployersEnvironment.Controllers
+namespace HelpComing.Controllers
 {
     public class HomeController : Controller
     {

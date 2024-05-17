@@ -1,13 +1,16 @@
-﻿@model EmployersEnvironment.Models.AddTaskViewModel
+﻿@model HelpComing.Models.UpdateTaskViewModel
 @{
 }
-
-<h2>Add Task</h2>
-<form method="post" action="Add" class="mt-5">
-  <div class="mb-3">
+<h2>Edit Task</h2>
+<form method="post" action="View" class="mt-5">
+    <div class="mb-3">
+        <label for="" class="form-label">TaskID</label>
+        <input type="text" class="form-control" asp-for="TaskID" readonly>
+    </div>
+    <div class="mb-3">
         <label for="" class="form-label">Description</label>
         <input type="text" class="form-control" asp-for="Description">
-  </div>
+    </div>
     <div class="mb-3">
         <label for="" class="form-label">Spring</label>
         <input type="date" class="form-control" asp-for="Spring">
@@ -32,5 +35,8 @@
         <label for="" class="form-label">AssigneeID</label>
         <input type="text" class="form-control" asp-for="SubtaskID">
     </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-danger"
+    asp-action="Delete"
+    asp-controller="Tasks">Delete</button>
 </form>

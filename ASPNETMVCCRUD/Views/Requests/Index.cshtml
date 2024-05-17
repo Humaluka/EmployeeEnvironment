@@ -1,0 +1,41 @@
+﻿@model List<HelpComing.Models.RequestViewModel>
+
+<style>
+    body, h1, h3, p, a {
+        color: black;
+        font-family: 'Segoe UI', sans-serif;
+    }
+</style>
+
+<h1>Заявки</h1>
+@if (User.Identity.IsAuthenticated)
+{
+    <a asp-action="Create" asp-controller="Requests" class="btn btn-primary">Создать заявку</a>
+}
+<div class="request-list">
+    @foreach (var item in Model)
+    {
+        <div class="request-item border border-3 rounded p-3 mb-3">
+            <div class="request-header">
+                <h3>Пропал - @item.Request.PersonName</h3>
+                @if (item.Request.Photo != null)
+                {
+                    <img src="data:image;base64,@Convert.ToBase64String(item.Request.Photo)" alt="Photo" />
+                }
+                <p><strong>Последний раз видели: @item.Request.LastSeenLocation</strong></p>
+                <p><strong>@item.Request.LastSeenDateTime</strong></p>
+            </div>
+            <div class="request-details">
+                <p>Описание: @item.Request.Description</p>
+                <p>Пользователь, создавший заявку: @item.Username</p>
+            </div>
+            <div class="request-actions">
+                <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Request.PersonName">Отредактировать</a>
+                <form asp-action="Delete" asp-controller="Users" method="post" style="display: inline;">
+                    <input type="hidden" name="id" value="@item.Request.PersonName" />
+                    <button type="submit" class="text-danger">Подробнее</button>
+                </form>
+            </div>
+        </div>
+    }
+</div>

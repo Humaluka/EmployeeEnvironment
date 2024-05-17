@@ -3,16 +3,90 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EmployersEnvironment</title>
+    <title>@ViewData["Title"] - HelpComing</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/EmployersEnvironment.styles.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: Segoe UI, sans-serif;
+            background-color: #F0F0F0; 
+            color: darkgrey; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; 
+        }
+
+        .navbar {
+            background-color: #FFFFFF; 
+            border: none; 
+        }
+
+        .navbar-brand {
+            font-size: 24px; 
+            font-weight: bold; 
+        }
+
+        .navbar-nav .nav-link {
+            border: none; 
+        }
+
+        .navbar-toggler {
+            border: none; 
+        }
+
+        .navbar-collapse {
+            justify-content: flex-end; 
+        }
+
+        .navbar-nav .nav-link {
+            color: darkgrey;
+        }
+
+            .navbar-nav .nav-link:hover {
+                color: black; 
+            }
+
+        .footer {
+            background-color: #FFFFFF; 
+            border-top: none; 
+            text-align: center; 
+            padding: 10px 0; 
+            margin-top: auto; 
+        }
+
+        .ticker {
+            white-space: nowrap;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+            .ticker p {
+                direction: ltr;
+                display: inline-block;
+                padding-left: 100%;
+                animation: ticker 10s linear infinite;
+            }
+
+                .ticker p span {
+                    display: inline-block;
+                    min-width: 100px;
+                }
+
+        @@keyframes ticker {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EmployersEnvironment</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HelpComing</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,19 +94,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Главная</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Index">Employees</a>
+                            <a class="nav-link" asp-area="" asp-controller="Requests" asp-action="Index">Заявки</a>
                         </li>
+                    </ul>
+                    <div class="ticker">
+                        <p>Если ваши близкие перестали выходить на связь и пропали без вести - сразу звоните 112</p>
+                    </div>
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employees" asp-action="Add">Add Employee</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tasks" asp-action="Index">Tasks</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tasks" asp-action="Add">Add Task</a>
+                            <a class="nav-link" asp-area="" asp-controller="Users" asp-action="Profile">Профиль</a>
                         </li>
                     </ul>
                 </div>
@@ -53,6 +126,119 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("iridescent-container", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    },
+                    "image": {
+                        "src": "img/github.svg",
+                        "width": 100,
+                        "height": 100
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 6,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

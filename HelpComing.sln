@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployersEnvironment", "ASPNETMVCCRUD\EmployersEnvironment.csproj", "{6BF47DDE-E739-4F73-AEC2-94A14C65251A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelpComing", "ASPNETMVCCRUD\HelpComing.csproj", "{6BF47DDE-E739-4F73-AEC2-94A14C65251A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-﻿namespace EmployersEnvironment.Models
+﻿namespace HelpComing.Models
 {
     public class UpdateTaskViewModel
     {

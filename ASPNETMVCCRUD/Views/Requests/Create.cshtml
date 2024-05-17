@@ -1,0 +1,39 @@
+﻿@model HelpComing.Models.CreateRequestViewModel
+@{
+}
+
+<h2>Создание заявки</h2>
+<form method="post" action="Create" class="mt-5" enctype="multipart/form-data">
+    <div class="mb-3">
+        <input type="text" type="hidden" readonly class="form-control" asp-for="RequestID">
+    </div>
+    <div class="mb-3">
+        <label for="PersonName" class="form-label">Имя пропавшего</label>
+        <input type="text" class="form-control @(ViewData.ModelState["PersonName"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="PersonName">
+        <span class="text-danger" asp-validation-for="PersonName"></span>
+    </div>
+    <div class="mb-3">
+        <label for="PhotoFile" class="form-label">Фото</label>
+        <input type="file" class="form-control @(ViewData.ModelState["Photo"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="PhotoFile">
+        <span class="text-danger" asp-validation-for="PhotoFile"></span>
+    </div>
+    <div class="mb-3">
+        <label for="LastSeenLocation" class="form-label">Последнее место</label>
+        <input type="text" class="form-control @(ViewData.ModelState["LastSeenLocation"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="LastSeenLocation">
+        <span class="text-danger" asp-validation-for="LastSeenLocation"></span>
+    </div>
+    <div class="mb-3">
+        <label for="LastSeenDateTime" class="form-label">Последнее время</label>
+        <input type="datetime-local" class="form-control @(ViewData.ModelState["LastSeenDateTime"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="LastSeenDateTime">
+        <span class="text-danger" asp-validation-for="LastSeenDateTime"></span>
+    </div>
+    <div class="mb-3">
+        <label for="Description" class="form-label">Описание</label>
+        <input type="text" class="form-control @(ViewData.ModelState["Description"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="Description">
+        <span class="text-danger" asp-validation-for="Description"></span>
+    </div>
+    <div class="mb-3">
+        <input type="text" type="hidden" readonly class="form-control" asp-for="CreateUser">
+    </div>
+    <button type="submit" class="btn btn-info">Подтвердить</button>
+</form>

@@ -1,0 +1,39 @@
+﻿@model HelpComing.Models.AddUserViewModel
+@{
+
+}
+
+<h2>Новый пользователь</h2>
+<form method="post" action="Add" class="mt-5">
+    <div class="mb-3">
+        <label for="Username" class="form-label">Логин</label>
+        <input type="text" class="form-control @(ViewData.ModelState["Username"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="Username">
+        <span class="text-danger" asp-validation-for="Username"></span>
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Пароль</label>
+        <input type="password" class="form-control @(ViewData.ModelState["Password"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="Password">
+        <span class="text-danger" asp-validation-for="Password"></span>
+    </div>
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <input type="email" class="form-control @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="Email">
+        <span class="text-danger" asp-validation-for="Email"></span>
+    </div>
+    <div class="mb-3">
+        <label for="RoleID" class="form-label">Роль</label>
+        <select class="form-control @(ViewData.ModelState["RoleID"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="RoleID" asp-items="Model.Roles"></select>
+        <span class="text-danger" asp-validation-for="RoleID"></span>
+    </div>
+    <div class="mb-3">
+        <label for="CountryID" class="form-label">Страна</label>
+        <select class="form-control @(ViewData.ModelState["CountryID"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="CountryID" asp-items="Model.Countries"></select>
+        <span class="text-danger" asp-validation-for="CountryID"></span>
+    </div>
+  <button type="submit" class="btn btn-primary">Создать</button>
+</form>
+
+@section Scripts 
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} 
+}
