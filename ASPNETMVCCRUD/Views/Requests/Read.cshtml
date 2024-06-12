@@ -1,0 +1,48 @@
+﻿@using HelpComing.Data;
+@model RequestViewModel
+@inject HelpComingDbContext dbContext
+
+<style>
+    body, h1, h3, p, a {
+        color: black;
+        font-family: 'Segoe UI', sans-serif;
+    }
+</style>
+ <div class="border border-3 rounded p-3 mb-3">
+
+    <h2>Заявка - @Model.Request.PersonName</h2>
+
+    @if (Model.Request.Photo != null)
+    {
+        <img src="data:image;base64,@Convert.ToBase64String(Model.Request.Photo)" alt="Photo" />
+    }
+    <h4>Описание: @Model.Request.Description</h4>
+    <h4>Дата последнего контакта: @Model.Request.LastSeenDateTime</h4>
+    <h4>Место последнего контакта: @Model.Request.LastSeenLocation</h4>
+
+    <p>Пользователь, создавший заявку: @Model.Username</p>
+    <p>Дата создания: @Model.Request.RequestDate</p>
+
+    @foreach (var reply in Model.Replies)
+    {
+        <div class="border border-3 rounded p-3 mb-3">
+            <h6>@HelpComing.Controllers.RequestsController.GetUsernameByUserId(@reply.PostUser, dbContext)</h6>
+            <h8>@reply.ReplyMessage</h8>
+            <p>@reply.ReplyDateTime</p>
+        </div>
+    }
+
+    <form asp-action="Comment" asp-controller="Replies" asp-route-id="@Model.Request.RequestID" method="get" style="display: inline;">
+        <input type="hidden" value="@Model.Request.RequestID" name="requestID" />
+        <button type="submit" class="btn btn-danger">Оставить комментарий</button>
+    </form>
+
+    @if (User.Identity.IsAuthenticated && (User.IsInRole("Администратор") || HelpComing.Controllers.RequestsController.GetUsernameByUserId(@Model.Request.CreateUser, dbContext) == User.Identity.Name))
+    {
+        <form asp-action="Delete" asp-controller="Requests" asp-route-id="@Model.Request.RequestID" method="post" style="display: inline;">
+            <input type="hidden" value="@Model.Request.RequestID" name="requestID" />
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+    }
+
+</div>

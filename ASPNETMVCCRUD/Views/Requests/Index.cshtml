@@ -30,9 +30,15 @@
                 <p>Пользователь, создавший заявку: @item.Username</p>
             </div>
             <div class="request-actions">
-                <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.Request.PersonName">Отредактировать</a>
-                <form asp-action="Delete" asp-controller="Users" method="post" style="display: inline;">
-                    <input type="hidden" name="id" value="@item.Request.PersonName" />
+                @if (User.Identity.Name == item.Username || User.IsInRole("Администратор") || User.IsInRole("Модератор"))
+                {
+                    <form asp-action="Edit" asp-controller="Requests" asp-route-id="@item.Request.RequestID" method="get" style="display: inline;">
+                        <input type="hidden" value="@item.Request.RequestID" name="requestID" />
+                        <button type="submit" class="text-danger">Отредактировать</button>
+                    </form>
+                }
+                <form asp-action="Read" asp-controller="Requests" asp-route-id="@item.Request.RequestID" method="get" style="display: inline;">
+                    <input type="hidden" value="@item.Request.RequestID" name="requestID" />
                     <button type="submit" class="text-danger">Подробнее</button>
                 </form>
             </div>

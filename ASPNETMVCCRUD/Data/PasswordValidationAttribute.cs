@@ -7,7 +7,7 @@ namespace HelpComing.Data
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var password = value as string;
+            string? password = value as string;
 
             if (string.IsNullOrEmpty(password))
             {

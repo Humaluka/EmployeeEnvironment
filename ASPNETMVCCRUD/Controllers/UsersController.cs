@@ -13,20 +13,25 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 public class UsersController : Controller
 {
+    #region Constructors and Consts
     private readonly HelpComingDbContext helpComingDbContext;
 
     public UsersController(HelpComingDbContext helpComingDbContext)
     {
         this.helpComingDbContext = helpComingDbContext;
     }
+    #endregion
 
+    #region Index
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var users = await helpComingDbContext.Users.ToListAsync();
+        List<User> users = await helpComingDbContext.Users.ToListAsync();
         return View(users);
     }
+    #endregion
 
+    #region Create
     [HttpGet]
     public async Task<IActionResult> Add()
     {
@@ -35,7 +40,7 @@ public class UsersController : Controller
             return RedirectToAction("Profile");
         }
 
-        var model = new AddUserViewModel
+        AddUserViewModel model = new AddUserViewModel
         {
             Roles = await helpComingDbContext.Roles.Select(r => new SelectListItem
             {
@@ -58,7 +63,7 @@ public class UsersController : Controller
     {
         if (ModelState.IsValid)
         {
-            var existingUser = await helpComingDbContext.Users
+            User existingUser = await helpComingDbContext.Users
                 .FirstOrDefaultAsync(u => u.Username == addUserViewModel.Username);
 
             if (existingUser != null)
@@ -67,13 +72,13 @@ public class UsersController : Controller
             }
             else
             {
-                var user = new User()
+                User user = new User()
                 {
                     UserID = Guid.NewGuid(),
                     Username = addUserViewModel.Username,
                     Password = addUserViewModel.Password,
                     Email = addUserViewModel.Email,
-                    RoleID = addUserViewModel.RoleID,
+                    RoleID = (int)Role.RoleTypes.User,
                     CountryID = addUserViewModel.CountryID
                 };
 
@@ -97,7 +102,9 @@ public class UsersController : Controller
 
         return View(addUserViewModel);
     }
+    #endregion
 
+    #region Login
     [HttpGet]
     public IActionResult Login()
     {
@@ -121,6 +128,7 @@ public class UsersController : Controller
                 {
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+                    new Claim(ClaimTypes.Role, (await helpComingDbContext.Roles.FirstOrDefaultAsync(r => r.RoleID == user.RoleID)).RoleName)
                 };
 
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -131,7 +139,8 @@ public class UsersController : Controller
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Неверные данные");
+                ModelState.AddModelError("Username", "Неверные данные");
+                ModelState.AddModelError("Password", "Неверные данные");
             }
         }
         return View(model);
@@ -143,7 +152,10 @@ public class UsersController : Controller
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction("Index", "Home");
     }
- 
+
+    #endregion
+
+    #region Profile
     [HttpGet]
     public async Task<IActionResult> Profile()
     {
@@ -153,7 +165,7 @@ public class UsersController : Controller
 
             if (user != null)
             {
-                var model = new UpdateUserViewModel
+                UpdateUserViewModel model = new UpdateUserViewModel
                 {
                     UserID = user.UserID,
                     Username = user.Username,
@@ -165,8 +177,7 @@ public class UsersController : Controller
                     Roles = await helpComingDbContext.Roles.Select(r => new SelectListItem
                     {
                         Value = r.RoleID.ToString(),
-                        Text = r.RoleName,
-                        Disabled = !user.RoleID.Equals(1)
+                        Text = r.RoleName
                     }).ToListAsync(),
 
                     Countries = await helpComingDbContext.Countries.Select(c => new SelectListItem
@@ -197,7 +208,9 @@ public class UsersController : Controller
         }
         return RedirectToAction("Index","Home");
     }
+    #endregion
 
+    #region Delete
     [HttpPost]
     public async Task<IActionResult> Delete(UpdateUserViewModel model)
     {
@@ -219,9 +232,9 @@ public class UsersController : Controller
         {
             return RedirectToAction("Index");
         }
-
         return RedirectToAction("Index", "Home");
     }
+
     [HttpPost]
     public async Task<IActionResult> ConfirmDelete(Guid userID)
     {
@@ -234,5 +247,5 @@ public class UsersController : Controller
         }
         return RedirectToAction("Index", "Home");
     }
-
+    #endregion
 }

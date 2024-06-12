@@ -14,6 +14,8 @@ namespace HelpComing.Data
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<Request> Requests { get; set; }
+
+        public DbSet<Reply> Replies { get; set; }
         public DbSet<Country> Countries { get; set; }
 
         // public DbSet<Models.Domain.Task> Tasks { get; set; }

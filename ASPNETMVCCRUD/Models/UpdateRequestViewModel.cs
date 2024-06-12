@@ -1,8 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HelpComing.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 namespace HelpComing.Models
 {
-    public class CreateRequestViewModel
+    public class UpdateRequestViewModel
     {
         public Guid RequestID { get; set; }
 
@@ -11,7 +15,7 @@ namespace HelpComing.Models
 
         public IFormFile PhotoFile { get; set; }
 
-        public byte[] Photo
+        public byte[]? Photo
         {
             get
             {
@@ -24,6 +28,11 @@ namespace HelpComing.Models
                     }
                 }
                 return null;
+            }
+            set
+            {
+                MemoryStream memoryStream = new MemoryStream(value);
+                PhotoFile = new FormFile(memoryStream, 0, value.Length, "name", "photo");
             }
         }
 
@@ -38,6 +47,6 @@ namespace HelpComing.Models
 
         public Guid? CreateUser { get; set; }
 
-        public string RequestDate { get; set; }
+        public DateTime RequestDate { get; set; }
     }
 }
