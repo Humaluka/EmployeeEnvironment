@@ -24,9 +24,12 @@
                 <td>@item.RoleID</td>
                 <td>@item.CountryID</td>
                 <td>
-                    <a asp-action="Edit" asp-controller="Users" asp-route-id="@item.UserID">Редактировать</a>
-                    <form asp-action="Delete" asp-controller="Users" method="post" style="display: inline;">
-                        <input type="hidden" name="id" value="@item.UserID" />
+                    <form asp-action="UserProfile" asp-controller="Users" method="get" style="display: inline;">
+                        <input type="hidden" value="@item.UserID" name="userID" />
+                        <button type="submit" class="text-danger">Редактировать</button>
+                    </form>
+                    <form asp-action="DeleteUser" asp-controller="Users" method="post" style="display: inline;">
+                        <input type="hidden" value="@item.UserID" name="userID" />
                         <button type="submit" class="text-danger">Удалить</button>
                     </form>
                 </td>

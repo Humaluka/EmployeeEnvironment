@@ -195,6 +195,7 @@ public class UsersController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(UpdateUserViewModel model)
     {
+
         User user = await helpComingDbContext.Users.FindAsync(model.UserID);
         if (user != null)
         {
@@ -206,7 +207,39 @@ public class UsersController : Controller
 
             await helpComingDbContext.SaveChangesAsync();
         }
-        return RedirectToAction("Index","Home");
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> UserProfile(string userID)
+    {
+        User user = await helpComingDbContext.Users.FirstOrDefaultAsync(x => x.UserID.ToString() == userID);
+        if (user != null)
+        {
+            UpdateUserViewModel model = new UpdateUserViewModel
+            {
+                UserID = user.UserID,
+                Username = user.Username,
+                Password = user.Password,
+                Email = user.Email,
+                RoleID = user.RoleID,
+                CountryID = user.CountryID,
+
+                Roles = await helpComingDbContext.Roles.Select(r => new SelectListItem
+                {
+                    Value = r.RoleID.ToString(),
+                    Text = r.RoleName
+                }).ToListAsync(),
+
+                Countries = await helpComingDbContext.Countries.Select(c => new SelectListItem
+                {
+                    Value = c.CountryID.ToString(),
+                    Text = c.CountryName
+                }).ToListAsync()
+            };
+            return View("Edit", model);
+        }
+        return RedirectToAction("Index");
     }
     #endregion
 
@@ -244,6 +277,29 @@ public class UsersController : Controller
             helpComingDbContext.Users.Remove(user);
             await helpComingDbContext.SaveChangesAsync();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+        return RedirectToAction("Index", "Home");
+    }
+    [HttpPost]
+    public async Task<IActionResult> DeleteUser(string userID)
+    {
+        User user = await helpComingDbContext.Users.FirstOrDefaultAsync(x => x.UserID.ToString() == userID);
+        User currentUser = await helpComingDbContext.Users.FirstOrDefaultAsync(x => x.UserID.ToString() == User.FindFirstValue(ClaimTypes.NameIdentifier));
+        if (user != null && currentUser != null)
+        {
+            if (currentUser.Equals(user))
+            {
+                TempData["ConfirmMessage"] = "Вы уверены, что хотите удалить свой профиль? Это действие не может быть отменено";
+                return View("DeleteConfirmation", user);
+            }
+
+            helpComingDbContext.Users.Remove(user);
+            await helpComingDbContext.SaveChangesAsync();
+        }
+
+        if (currentUser?.RoleID == (int)Role.RoleTypes.Admin)
+        {
+            return RedirectToAction("Index");
         }
         return RedirectToAction("Index", "Home");
     }

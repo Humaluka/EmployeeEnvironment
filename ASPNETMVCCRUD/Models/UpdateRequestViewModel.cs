@@ -31,8 +31,11 @@ namespace HelpComing.Models
             }
             set
             {
-                MemoryStream memoryStream = new MemoryStream(value);
-                PhotoFile = new FormFile(memoryStream, 0, value.Length, "name", "photo");
+                if (value != null)
+                {
+                    MemoryStream memoryStream = new MemoryStream(value);
+                    PhotoFile = new FormFile(memoryStream, 0, value.Length, "name", "photo");
+                }
             }
         }
 

@@ -32,10 +32,13 @@
         </div>
     }
 
-    <form asp-action="Comment" asp-controller="Replies" asp-route-id="@Model.Request.RequestID" method="get" style="display: inline;">
-        <input type="hidden" value="@Model.Request.RequestID" name="requestID" />
+    @if (User.Identity.IsAuthenticated)
+    {
+        <form asp-action="Comment" asp-controller="Replies" asp-route-id="@Model.Request.RequestID" method="get" style="display: inline;">
+            <input type="hidden" value="@Model.Request.RequestID" name="requestID" />
         <button type="submit" class="btn btn-danger">Оставить комментарий</button>
     </form>
+    }
 
     @if (User.Identity.IsAuthenticated && (User.IsInRole("Администратор") || HelpComing.Controllers.RequestsController.GetUsernameByUserId(@Model.Request.CreateUser, dbContext) == User.Identity.Name))
     {

@@ -1,7 +1,7 @@
 ﻿@model HelpComing.Models.UpdateUserViewModel
 @{
 }
-<h2>Редактирование профиля</h2>
+<h2>Редактирование пользователя</h2>
 <form method="post" action="Edit" class="mt-5">
     <div class="mb-3">
         <input type="text" type="hidden" readonly class="form-control" asp-for="UserID">
@@ -21,7 +21,7 @@
         <input type="email" class="form-control @(ViewData.ModelState["Email"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="Email">
         <span class="text-danger" asp-validation-for="Email"></span>
     </div>
-    <div class="form-group @(Model.RoleID != 1 ? "d-none" : "")">
+    <div class="mb-3">
         <label for="RoleID" class="form-label">Роль</label>
         <select class="form-control @(ViewData.ModelState["RoleID"]?.Errors.Count > 0 ? "is-invalid" : "")" asp-for="RoleID" asp-items="Model.Roles"></select>
         <span asp-validation-for="RoleID" class="text-danger"></span>
@@ -33,28 +33,3 @@
     </div>
     <button type="submit" class="btn btn-info">Подтвердить</button>
 </form>
-
-<form method="post" asp-controller="Users" asp-action="Logout" class="mt-3">
-    <button type="submit" class="btn btn-outline-info">Выйти из аккаунта</button>
-</form>
-
-<form method="post" asp-controller="Users" asp-action="Delete" class="mt-3">
-    <input type="hidden" asp-for="UserID" />
-    <button type="submit" class="btn btn-danger">Удалить аккаунт</button>
-</form>
-
-@if(User.Identity.IsAuthenticated && User.IsInRole("Администратор"))
-{
-    <form method="get" asp-controller="Users" asp-action="Index" class="mt-3">
-        <input type="hidden" asp-for="UserID" />
-        <button type="submit" class="btn">Список пользователей</button>
-    </form>
-}
-
-
-@section Scripts
-    {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
