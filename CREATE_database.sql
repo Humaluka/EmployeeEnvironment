@@ -1,8 +1,7 @@
-
-/****** Object:  Table [dbo].[Users]    Script Date: 17.05.2024 5:53:48 ******/
+CREATE DATABASE [Diplom]
+GO
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
 
@@ -28,13 +27,6 @@ ALTER TABLE [dbo].[Users]  WITH CHECK ADD FOREIGN KEY([RoleID])
 REFERENCES [dbo].[Roles] ([RoleID])
 GO
 
-/****** Object:  Table [dbo].[Roles]    Script Date: 17.05.2024 5:53:53 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [dbo].[Roles](
 	[RoleID] [int] IDENTITY(1,1) NOT NULL,
 	[RoleName] [varchar](255) NOT NULL,
@@ -45,22 +37,15 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 GO
 
-
-/****** Object:  Table [dbo].[Requests]    Script Date: 17.05.2024 5:54:14 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [dbo].[Requests](
 	[RequestID] [uniqueidentifier] NOT NULL,
 	[PersonName] [varchar](255) NOT NULL,
-	[Photo] [image] NOT NULL,
+	[Photo] [image] NULL,
 	[LastSeenLocation] [varchar](255) NOT NULL,
 	[LastSeenDateTime] [datetime] NOT NULL,
 	[Description] [varchar](1000) NOT NULL,
 	[CreateUser] [uniqueidentifier] NULL,
+	[RequestDate] [datetime] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[RequestID] ASC
@@ -70,14 +55,7 @@ GO
 
 ALTER TABLE [dbo].[Requests]  WITH CHECK ADD FOREIGN KEY([CreateUser])
 REFERENCES [dbo].[Users] ([UserID])
-GO
-
-
-/****** Object:  Table [dbo].[Replies]    Script Date: 17.05.2024 5:54:31 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
+ON DELETE CASCADE
 GO
 
 CREATE TABLE [dbo].[Replies](
@@ -95,17 +73,11 @@ GO
 
 ALTER TABLE [dbo].[Replies]  WITH CHECK ADD FOREIGN KEY([PostUser])
 REFERENCES [dbo].[Users] ([UserID])
+ON DELETE CASCADE
 GO
 
 ALTER TABLE [dbo].[Replies]  WITH CHECK ADD FOREIGN KEY([RequestID])
 REFERENCES [dbo].[Requests] ([RequestID])
-GO
-
-/****** Object:  Table [dbo].[Countries]    Script Date: 17.05.2024 5:54:49 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Countries](
@@ -118,5 +90,7 @@ PRIMARY KEY CLUSTERED
 ) ON [PRIMARY]
 GO
 
+INSERT INTO dbo.Users
+values (newid(), 'Test', '123456789', 'test@test.ru', 1, 1)
 
-
+GO
